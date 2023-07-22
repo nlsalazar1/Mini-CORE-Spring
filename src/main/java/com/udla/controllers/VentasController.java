@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.springboot.clienteapp.models.entity.InmuebleCantidadSectorDTO;
 import com.udla.models.entity.Vendedor;
 import com.udla.models.entity.Ventas;
 import com.udla.models.service.IVendedorService;
@@ -146,32 +145,7 @@ public class VentasController {
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	
-	@GetMapping("/mostrarVentas")    //funciona
-	public String barGraph(Model model) {
-		
-		List<Object[]> results = publicacionService.obtenerCantidadInmueblesConSector("casa", 200000, 300000);
-        
-		List<InmuebleCantidadSectorDTO> listaSectores = new ArrayList<>();
-
-		Map<String, BigInteger> surveyMap = new LinkedHashMap<>();
-
-		for (Object[] result : results) {
-            String sector = (String) result[0];
-            BigInteger cantidad = (BigInteger) result[1];
-            
-            
-            surveyMap.put(sector, cantidad);
-            //InmuebleCantidadSectorDTO inmuebleCantidadSectorDTO = new InmuebleCantidadSectorDTO(sector, cantidad);
-            //listaSectores.add(inmuebleCantidadSectorDTO);
-        }
-		
-		model.addAttribute("surveyMap", surveyMap);
-		
-		return "/views/analisis/AnalisisGraficas";
-	}
-	
-	
+	/*
 	@GetMapping("/displayVentas/{tipo}/{valor_min}/{valor_max}")
 	public String barGraph(@PathVariable("tipo") String tipo, @PathVariable("valor_min") float valor_min, @PathVariable("valor_max") float valor_max, Model model) {
 		List<Object[]> results = publicacionService.obtenerCantidadInmueblesConSector("casa", 200000, 300000);
@@ -194,5 +168,5 @@ public class VentasController {
 
 	    return "/views/analisis/AnalisisGraficas";
 	}
-	
+	*/
 }
