@@ -1,0 +1,160 @@
+<! DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla/template :: head">
+
+	<link rel="stylesheet" href="../../../static/css/normalize.css">
+	<link rel="stylesheet" href="../../../static/css/style.css">	
+	
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<!-- Optional theme -->
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+	
+	
+</head>
+<body>
+	<header th:replace="plantilla/template :: header"></header>
+
+
+	<div class="container">
+		<h1 th:text="${titulo}"></h1>
+		<!--  p th:text="${inmuebles}"></p-->
+	</div>
+	
+	
+	
+	<div class="container">
+		<h2 align="center">Estadísticas de publicaciones </h2>
+		
+	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+
+
+	<div>
+		<select id="tipo" name="tipo">
+		        <option value="casa">Casa</option>
+		        <option value="Apartamento">Apartamento</option>
+		    </select>
+		    
+		 	 <input type="number" id="valor_mc" placeholder="Ingrese valor metro cuadrado">	
+		    
+		    <select id="sector1" name="sector1">
+		    <option value="">Seleccionar sector 1</option>
+		        <option value="Nayon">Nayon</option>
+		        <option value="El Batán">El Batán</option>
+		        <option value="El Inca">El Inca</option>
+		        <option value="Sangolqui">Sangolqui</option>
+		        <option value="San Carlos">San Carlos</option>
+		        <option value="Prensa">Prensa</option>
+		        <option value="Cotocollao">Cotocollao</option>
+		        <option value="Carcelén">Carcelén</option>
+		        <option value="Recreo">Recreo</option>
+		        <option value="Quitumbe">Quitumbe</option>
+		    </select>
+		    
+		    <select id="sector2" name="sector2">
+		    <option value="">Seleccionar sector 2</option>
+		        <option value="Nayon">Nayon</option>
+		        <option value="El Batán">El Batán</option>
+		        <option value="El Inca">El Inca</option>
+		        <option value="Sangolqui">Sangolqui</option>
+		        <option value="San Carlos">San Carlos</option>
+		        <option value="Prensa">Prensa</option>
+		        <option value="Cotocollao">Cotocollao</option>
+		        <option value="Carcelén">Carcelén</option>
+		        <option value="Recreo">Recreo</option>
+		        <option value="Quitumbe">Quitumbe</option>
+		    </select>
+		    
+		    <select id="sector3" name="sector3">
+		    <option value="">Seleccionar sector 3</option>
+		        <option value="Nayon">Nayon</option>
+		        <option value="El Batán">El Batán</option>
+		        <option value="El Inca">El Inca</option>
+		        <option value="Sangolqui">Sangolqui</option>
+		        <option value="San Carlos">San Carlos</option>
+		        <option value="Prensa">Prensa</option>
+		        <option value="Cotocollao">Cotocollao</option>
+		        <option value="Carcelén">Carcelén</option>
+		        <option value="Recreo">Recreo</option>
+		        <option value="Quitumbe">Quitumbe</option>
+		    </select>
+		
+		   
+		
+		    <a class="btn btn-primary" onclick="actualizarPrecio()" title="Buscar">Buscar inmuebles</a>
+</div>
+
+
+<div class="container">
+		<h1>Inmuebles</h1>
+		<!--  p th:text="${inmuebles}"></p-->
+	</div>
+
+	<div class="container">
+	
+		
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">cliente nombre</th>
+					
+					<th scope="col">Area</th>
+					<th scope="col">Tipo</th>
+					<th scope="col">Sector</th>
+					<th scope="col">Dormitorios</th>
+					<th scope="col">Baños</th>
+					<th scope="col">Precio</th>
+					<th scope="col">Descripcion</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="inm:${inmuebles}">
+					<th scope="row" th:text="${inm.idInmueble}"></th>
+					<td th:text="${inm.cliente.nombres}"></td>
+					<td th:text="${inm.area}"></td>
+					<td th:text="${inm.tipo}"></td>
+					<td th:text="${inm.sector}"></td>
+					<td th:text="${inm.dormitorios}"></td>
+					<td th:text="${inm.banios}"></td>
+					<td th:text="${inm.precio}"></td>
+					<td th:text="${inm.descripcion}"></td>
+
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+	
+	
+	
+	
+	<script>
+	    function actualizarPrecio() {
+	        var tipo = document.getElementById('tipo').value;
+	        var sector1 = document.getElementById('sector1').value;
+	        var sector2 = document.getElementById('sector2').value;
+	        var sector3 = document.getElementById('sector3').value;
+	        var valorC = document.getElementById('valor_mc').value;
+	
+	        var url = '/views/inmuebles/displayMetroCuadrado/' + tipo + '/' + sector1 + '/' + sector2 + '/' + sector3 + '/' + valorC;
+	        window.location.href = url;
+	    }
+	</script>
+
+	
+
+
+	
+	<footer th:replace="plantilla/template :: footer"></footer>
+	
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script type="text/javascript" src="../../../static/js/graficas.js"></script>
+</body>
+</html>

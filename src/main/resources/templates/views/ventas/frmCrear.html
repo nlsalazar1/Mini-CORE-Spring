@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla/template :: head">
+</head>
+<body>
+	<header th:replace="plantilla/template :: header"></header>
+
+	<div class="container">
+
+		<div class="card bg-light">
+			<div class="card-header bg-dark text-white" th:text="${titulo}"></div>
+			<div class="card-body">
+			
+				<form th:action="@{/views/clientes/save}" th:object="${cliente}" method="post">
+				
+					<div class="form-group-row">
+						
+						<input type="hidden" th:field="*{id}" > <!-- Usamos para editar mediante el uso de id
+																	 con esto ya no se crean nuevos registros sino se actualizan -->
+						 
+						<label for="nombres" class="col-md-2 form-label">Nombres:</label>
+						<input type="text" th:field="*{nombres}" class="form-control form-control-sm col-md-6"
+							id="nombres" placeholder="Nombres del cliente"> 
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('nombres')}"
+									th:errors="*{nombres}">
+							</small>
+					</div>
+
+					<div class="form-group-row">
+						<label for="apellidos" class="col-md-2 form-label">Apellidos:</label>
+						<input type="text" th:field="*{apellidos}" class="form-control form-control-sm col-md-6"
+							id="apellidos" placeholder="Apellidos del cliente"> 
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('apellidos')}"
+									th:errors="*{apellidos}">
+							</small>
+					</div>
+
+					<div class="form-group-row">
+						<label for="telefono" class="col-md-2 form-label">Teléfono:</label>
+						<input type="text" th:field="*{telefono}" class="form-control form-control-sm col-md-6"
+							id="telefono" placeholder="Telefono del cliente"> 
+							<small class="form-text text-danger" th:if="${#fields.hasErrors('telefono')}"
+									th:errors="*{telefono}">
+							</small>
+					</div>
+
+					<div class="form-group-row">
+					    <label for="email" class="col-md-2 form-label">Email:</label> 
+					    <input type="text" name="email" class="form-control form-control-sm col-md-6" id="email" placeholder="Email del cliente"> 
+					    <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}"
+					        th:errors="*{email}">
+					    </small>
+					</div>
+
+
+					<div class="form-group-row">
+						<label for="ciudad" class="col-md-2 form-label">Ciudad:</label> 
+						<select th:field="*{ciudad}" class="form-control form-control-sm col-md-6" id="ciudad">
+							<option th:each="ciudad:${ciudades}"
+								th:value="${ciudad.id}"
+								th:text="${ciudad.ciudad}"
+							/>
+						</select>
+					</div>
+
+					<div class="card-footer bg-dark">
+						<input type="submit" class="btn btn-primary btn-sm"	value="Guardar" />
+					</div>
+
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="plantilla/template :: footer"></footer>
+
+</body>
+</html>

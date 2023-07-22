@@ -1,0 +1,188 @@
+<! DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="plantilla/template :: head">
+
+	<link rel="stylesheet" href="../../../static/css/normalize.css">
+	<link rel="stylesheet" href="../../../static/css/style.css">	
+	
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<!-- Optional theme -->
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+	
+	<script>
+	    // Obtén los datos del controlador y conviértelos a JSON
+	    var datosInmuebles = JSON.parse("{{InmuebleCantidadSectorDTO | json_encode}}");
+	</script>
+	
+</head>
+<body>
+	<header th:replace="plantilla/template :: header"></header>
+
+
+	<div class="container">
+		<h1 th:text="${titulo}"></h1>
+		<!--  p th:text="${inmuebles}"></p-->
+	</div>
+	
+	
+	
+	<div class="container">
+		<h2 align="center">Estadísticas de publicaciones </h2>
+		
+	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	
+
+
+	<ul class="btn-warning">
+						
+		<li class="dropdown" >
+			<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Grafico</button>
+									  
+						
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+				<a class="dropdown-item" href="#">Barras</a>
+				<a class="dropdown-item" href="#">Pastel</a>
+				<a class="dropdown-item" href="#">Otro</a>				
+						    
+			</div>
+		</li>
+						
+	</ul>
+	
+	<div>
+		<!-- form th:action="@{/views/analisis/displayBarGraph}" th:object="${InmuebleCantidadSectorDTO}" method="post"-->
+		
+		    <!-- select id="precio" name="precio">
+		        <option value="0-50000">0 - 50000</option>
+		        <option value="50001-100000">50001 - 100000</option>
+		        <option value="100001-150000">100001 - 150000</option>
+		        <option value="150001-200000">150001 - 200000</option>
+		    </select-->
+		    
+		     <!-- div class="form-group-row">
+			      <label for="valor_min" class="col-md-2 form-label">Valor minimo:</label>
+			      <input type="text" th:field="*{valor_min}" class="form-control form-control-sm col-md-6" id="valor_min" placeholder="valor_min">
+			      <small class="form-text text-danger" th:if="${#fields.hasErrors('valor_min')}" th:errors="*{valor_min}"></small>
+			 </div-->
+		    
+		    <!-- div class="form-group-row">
+			     <label for="tipo" class="col-md-2 form-label">Tipo:</label>
+			     <input type="text" th:field="*{tipo}" class="form-control form-control-sm col-md-6" id="tipo" placeholder="Tipo de inmueble">
+			     <small class="form-text text-danger" th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}"></small>
+		   </div-->
+		    
+		    <select id="tipo" name="tipo">
+		        <option value="casa">casa</option>
+		        <option value="Apartamento">Apartamento</option>
+		    </select>
+		
+		    <input type="number" id="valor_min" placeholder="Ingrese valor mínimo">
+		    <input type="number" id="valor_max" placeholder="Ingrese valor máximo">
+		
+		    <a class="btn btn-primary" onclick="actualizarPrecio()" title="Actualizar Precio">Actualizar Precio</a>
+</div>
+	
+
+	<div id="container1" style="height: 400px"></div>
+		<script th:inline="javascript">
+    $(function() {
+        var surveyMap = [[${surveyMap}]];
+        var data = Object.entries(surveyMap).map(([sector, cantidad]) => [sector, cantidad]);
+
+        Highcharts.chart('container1', {
+            chart: {
+                type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 50,
+                    beta: 0
+                }
+            },
+            title: {
+                text: 'Result Status'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    depth: 35,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Ratio',
+                data: data
+            }]
+        });
+    });
+</script>
+
+	
+	<script>
+	    function actualizarPrecio() {
+	        var tipo = document.getElementById('tipo').value;
+	        var valorMin = document.getElementById('valor_min').value;
+	        var valorMax = document.getElementById('valor_max').value;
+	
+	        var url = '/views/analisis/displayPieChart/' + tipo + '/' + valorMin + '/' + valorMax;
+	        window.location.href = url;
+	    }
+	</script>
+
+
+
+
+
+
+	
+	<!-- table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Sector</th>
+					<th scope="col">cantidad</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="pub:${InmuebleCantidadSectorDTO}">
+					<th scope="row" th:text="${pub.sector}"></th>
+					<td th:text="${pub.cantidad}"></td>
+					
+				</tr>
+			</tbody>
+		</table-->
+	
+	
+	<!-- div id="container" style="width:100%; height: 500px; margin: 0 auto;"></div>
+	<div id="play-range" style="width:100%; height: 500px; margin: 0 auto;"></div>
+	
+	
+	<div id="container3" style="width:100%; height: 500px; margin: 0 auto;"></div>
+	
+	
+	<div id="basicArea" style="width:100%; height: 500px; margin: 0 auto;"></div-->
+	
+	
+	
+	<footer th:replace="plantilla/template :: footer"></footer>
+	
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script type="text/javascript" src="../../../static/js/graficas.js"></script>
+</body>
+</html>
